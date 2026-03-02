@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #f6f3ea;
+  --ink: #1f2a2e;
+  --coral: #e86d4f;
+  --teal: #1e6f77;
+  --sand: #d7c7a2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(232, 109, 79, 0.2), transparent 28%),
+    radial-gradient(circle at 12% 84%, rgba(30, 111, 119, 0.19), transparent 30%),
+    linear-gradient(140deg, #f8f6ef 0%, #f3eee0 52%, #efe9d7 100%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.grid-reveal > * {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.grid-reveal > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.grid-reveal > *:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
