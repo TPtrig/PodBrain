@@ -9,6 +9,10 @@ Turn podcasts into a personal, queryable second brain.
 
 This GitHub repo is intentionally linked to a **frontend-only demo** on Vercel for easy review.
 
+## Product PRD
+
+- [PodBrain PRD (English)](./docs/PRD.md)
+
 ## Why This Product
 
 Podcast learning is high-volume but low-retention. Most people consume content and forget it quickly because there is no structured capture and retrieval loop.
