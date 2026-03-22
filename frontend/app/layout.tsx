@@ -16,8 +16,8 @@ const body = Spectral({
 });
 
 export const metadata: Metadata = {
-  title: "PodBrain",
-  description: "Build a second brain from podcasts with human-in-the-loop RAG."
+  title: "Inspiration",
+  description: "An omni-channel knowledge agent for grounded memory, synthesis, and inspired recall."
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

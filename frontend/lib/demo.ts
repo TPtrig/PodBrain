@@ -7,8 +7,8 @@ export type DemoTaskData = {
   takeaways: string[];
 };
 
-const DEMO_TASK_PREFIX = "podbrain:demo-task:";
-const DEMO_CURATED_PREFIX = "podbrain:demo-curated:";
+const DEMO_TASK_PREFIX = "inspiration:demo-task:";
+const DEMO_CURATED_PREFIX = "inspiration:demo-curated:";
 
 const DEMO_AUDIO =
   "https://file-examples.com/storage/fe7f0c9fdf5f8f53e9f8f9f/2017/11/file_example_MP3_700KB.mp3";
@@ -35,7 +35,7 @@ const DEMO_TRANSCRIPT = [
 ].join(" ");
 
 export function isDemoModeEnabled(): boolean {
-  return (process.env.NEXT_PUBLIC_DEMO_MODE ?? "false") === "true";
+  return (process.env.NEXT_PUBLIC_DEMO_MODE ?? "true") === "true";
 }
 
 export function createDemoTask(inputUrl: string): DemoTaskData {

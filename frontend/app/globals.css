@@ -8,6 +8,8 @@
   --coral: #e86d4f;
   --teal: #1e6f77;
   --sand: #d7c7a2;
+  --mist: #d8e1e7;
+  --night: #0f1726;
 }
 
 * {
@@ -17,36 +19,156 @@
 body {
   margin: 0;
   min-height: 100vh;
-  color: var(--ink);
+  color: #f2f6ff;
+  font-family: var(--font-body), serif;
   background:
-    radial-gradient(circle at 88% 12%, rgba(232, 109, 79, 0.2), transparent 28%),
-    radial-gradient(circle at 12% 84%, rgba(30, 111, 119, 0.19), transparent 30%),
-    linear-gradient(140deg, #f8f6ef 0%, #f3eee0 52%, #efe9d7 100%);
+    radial-gradient(circle at 88% 12%, rgba(81, 122, 208, 0.18), transparent 20%),
+    radial-gradient(circle at 12% 84%, rgba(34, 79, 156, 0.16), transparent 24%),
+    linear-gradient(155deg, #050915 0%, #09111f 48%, #0a1426 100%);
 }
 
 .text-balance {
   text-wrap: balance;
 }
 
-.grid-reveal > * {
-  animation: rise-in 0.7s ease-out both;
+.floating-node {
+  animation: drift 8s ease-in-out infinite;
 }
 
-.grid-reveal > *:nth-child(2) {
-  animation-delay: 80ms;
+.island-mass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 28% 26%, rgba(215, 231, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 72% 68%, rgba(103, 151, 231, 0.16), transparent 22%),
+    radial-gradient(circle at 48% 46%, rgba(84, 118, 176, 0.94) 0%, rgba(42, 64, 104, 0.96) 48%, rgba(18, 30, 54, 0.98) 100%);
 }
 
-.grid-reveal > *:nth-child(3) {
-  animation-delay: 160ms;
+.island-shore {
+  border: 1px solid rgba(230, 242, 255, 0.34);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 10px 24px rgba(201, 224, 255, 0.08);
 }
 
-@keyframes rise-in {
+.island-ridge {
+  background:
+    radial-gradient(circle at 34% 34%, rgba(248, 252, 255, 0.2), transparent 24%),
+    linear-gradient(145deg, rgba(119, 154, 212, 0.46), rgba(51, 76, 122, 0.08));
+  filter: blur(0.4px);
+}
+
+.island-lagoon {
+  background:
+    radial-gradient(circle at 30% 32%, rgba(161, 207, 255, 0.26), rgba(73, 113, 188, 0.14) 52%, transparent 74%);
+  filter: blur(0.6px);
+}
+
+.island-pulse {
+  animation: island-breathe 5.2s ease-in-out infinite;
+}
+
+.energy-line {
+  stroke-dasharray: 6 6;
+  animation: flow 5.5s linear infinite;
+}
+
+.star-streak {
+  position: absolute;
+  width: 180px;
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(208, 228, 255, 0.9), rgba(255, 255, 255, 0));
+  box-shadow: 0 0 14px rgba(170, 208, 255, 0.5);
+  transform: rotate(-18deg) translateX(-140px);
+  animation: shooting-star 8s linear infinite;
+}
+
+.night-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 156, 230, 0.65) rgba(255, 255, 255, 0.06);
+}
+
+.night-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.night-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+}
+
+.night-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(102, 147, 226, 0.9), rgba(57, 95, 166, 0.8));
+  border-radius: 999px;
+  border: 2px solid rgba(10, 18, 34, 0.85);
+}
+
+.smart-loader {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 18px 34px rgba(36, 84, 88, 0.12);
+}
+
+.smart-loader-text {
+  animation: loader-rise 0.7s ease both;
+}
+
+@keyframes loader-rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes flow {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: rotate(-18deg) translateX(-140px);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  38% {
+    opacity: 0;
+    transform: rotate(-18deg) translateX(340px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-18deg) translateX(340px);
+  }
+}
+
+@keyframes island-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 55px rgba(87, 140, 255, 0.16);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 80px rgba(111, 165, 255, 0.24);
   }
 }

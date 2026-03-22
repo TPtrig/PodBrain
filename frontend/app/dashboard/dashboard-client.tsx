@@ -91,7 +91,9 @@ export default function DashboardClient() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setOpenaiKey(window.sessionStorage.getItem("podbrain:openai-key") ?? "");
+      setOpenaiKey(
+        window.sessionStorage.getItem("inspiration:openai-key") ?? window.sessionStorage.getItem("podbrain:openai-key") ?? ""
+      );
     }
   }, []);
 
@@ -216,7 +218,7 @@ export default function DashboardClient() {
 
     if (isDemoMode) {
       const count = saveDemoCuratedTakeaways(taskId, selected);
-      setSaveMessage(`Demo saved ${count} takeaway(s) to local brain.`);
+      setSaveMessage(`Demo saved ${count} takeaway(s) to local memory.`);
       return;
     }
 
@@ -242,7 +244,7 @@ export default function DashboardClient() {
         throw new Error(data.detail || "Failed to save takeaways to vector database.");
       }
 
-      setSaveMessage(data.message || `Saved ${data.saved_count} takeaway(s) to your brain.`);
+      setSaveMessage(data.message || `Saved ${data.saved_count} takeaway(s) to Inspiration memory.`);
     } catch (saveError) {
       const message = saveError instanceof Error ? saveError.message : "Unexpected save error.";
       setSaveMessage(message);
@@ -332,10 +334,10 @@ export default function DashboardClient() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6">
-        <div className="inline-flex items-center gap-2 rounded-xl border border-ink/15 bg-white/80 px-4 py-3 text-sm text-ink/80 shadow-soft">
+      <main className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,_rgba(76,108,171,0.24),_transparent_18%),radial-gradient(circle_at_85%_10%,_rgba(86,141,255,0.16),_transparent_16%),linear-gradient(160deg,#050915_0%,#0a1222_45%,#0b1528_100%)] px-6">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-5 py-3 text-sm text-white/80 shadow-soft">
           <LoaderCircle className="h-4 w-4 animate-spin" />
-          Loading dashboard...
+          Loading Inspiration review...
         </div>
       </main>
     );
@@ -343,15 +345,15 @@ export default function DashboardClient() {
 
   if (error || !task) {
     return (
-      <main className="mx-auto flex min-h-screen w-full max-w-3xl items-center px-6">
-        <section className="w-full rounded-2xl border border-[#b23a2d]/25 bg-[#f9e9e7] p-6 text-[#8f2f25] shadow-soft">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide">Dashboard Error</p>
+      <main className="mx-auto flex min-h-screen w-full max-w-3xl items-center bg-[radial-gradient(circle_at_top_left,_rgba(76,108,171,0.24),_transparent_18%),radial-gradient(circle_at_85%_10%,_rgba(86,141,255,0.16),_transparent_16%),linear-gradient(160deg,#050915_0%,#0a1222_45%,#0b1528_100%)] px-6">
+        <section className="w-full rounded-[28px] border border-[#b23a2d]/20 bg-[#f9e9e7] p-6 text-[#8f2f25] shadow-soft">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide">Inspiration Review Error</p>
           <p className="mb-5 text-sm">{error || "No task data available."}</p>
           <button
             onClick={() => router.push("/")}
-            className="rounded-lg bg-[#8f2f25] px-4 py-2 text-sm font-semibold text-white hover:bg-[#7a281f]"
+            className="rounded-full bg-[#8f2f25] px-4 py-2 text-sm font-semibold text-white hover:bg-[#7a281f]"
           >
-            Back to Landing
+            Back to Workspace
           </button>
         </section>
       </main>
@@ -360,34 +362,37 @@ export default function DashboardClient() {
 
   return (
     <>
-      <main className="mx-auto w-full max-w-7xl px-6 pb-48 pt-8 md:px-10">
+      <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(76,108,171,0.24),_transparent_18%),radial-gradient(circle_at_85%_10%,_rgba(86,141,255,0.16),_transparent_16%),linear-gradient(160deg,#050915_0%,#0a1222_45%,#0b1528_100%)] px-6 pb-48 pt-8 md:px-10">
+        <div className="mx-auto w-full max-w-7xl">
         <header className="mb-8 flex items-center justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-teal">PodBrain Dashboard</p>
-            <h1 className="text-3xl leading-tight text-ink md:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>
+            <p className="mb-2 inline-flex items-center rounded-full border border-teal/20 bg-teal/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal">
+              Inspiration Review
+            </p>
+            <h1 className="mt-3 text-4xl leading-[0.96] text-white md:text-5xl" style={{ fontFamily: "var(--font-heading)" }}>
               {task.title || "Untitled Episode"}
             </h1>
-            <p className="mt-2 text-sm text-ink/70">Task: {task.task_id}</p>
+            <p className="mt-3 text-sm text-white/62">Task: {task.task_id}</p>
           </div>
           <button
             onClick={() => router.push("/")}
-            className="rounded-xl border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink hover:bg-paper"
+            className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
           >
-            New Episode
+            New Intake
           </button>
         </header>
 
         {isDemoMode ? (
-          <div className="mb-5 rounded-xl border border-teal/30 bg-teal/10 px-4 py-2 text-sm text-teal">
+          <div className="mb-5 rounded-[24px] border border-teal/20 bg-teal/10 px-4 py-3 text-sm text-teal">
             Demo Mode active: save and chat are running on local mock vector memory. In live mode this is powered by
             FastAPI + ChromaDB retrieval.
           </div>
         ) : null}
 
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-2xl border border-ink/10 bg-white/85 p-5 shadow-soft">
-            <h2 className="mb-3 text-xl text-ink" style={{ fontFamily: "var(--font-heading)" }}>
-              Episode Context
+          <article className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,18,34,0.92),rgba(8,14,26,0.94))] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur-xl">
+            <h2 className="mb-3 text-2xl text-white" style={{ fontFamily: "var(--font-heading)" }}>
+              Source Context
             </h2>
 
             {task.audio_url ? (
@@ -396,26 +401,26 @@ export default function DashboardClient() {
                 Your browser does not support audio playback.
               </audio>
             ) : (
-              <p className="mb-4 rounded-lg bg-paper/70 px-3 py-2 text-sm text-ink/70">Audio URL unavailable for this task.</p>
+              <p className="mb-4 rounded-[18px] bg-white/6 px-3 py-2 text-sm text-white/62">Audio URL unavailable for this task.</p>
             )}
 
-            <div className="mb-4 rounded-xl border border-ink/10 bg-paper/60 p-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/60">Summary</p>
-              <p className="text-sm leading-relaxed text-ink/85">{task.summary || "No summary generated."}</p>
+            <div className="mb-4 rounded-[22px] border border-white/10 bg-white/6 p-4">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/48">Summary</p>
+              <p className="text-sm leading-relaxed text-white/80">{task.summary || "No summary generated."}</p>
             </div>
 
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/60">Full Transcript</p>
-              <div className="max-h-[420px] overflow-y-auto rounded-xl border border-ink/10 bg-white p-4 text-sm leading-relaxed text-ink/85">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/48">Full Transcript</p>
+              <div className="max-h-[420px] overflow-y-auto rounded-[22px] border border-white/10 bg-[#0f1b30] p-4 text-sm leading-relaxed text-white/78">
                 {task.transcript || "Transcript is empty."}
               </div>
             </div>
           </article>
 
-          <aside className="rounded-2xl border border-ink/10 bg-white/85 p-5 shadow-soft">
+          <aside className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,18,34,0.92),rgba(8,14,26,0.94))] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur-xl">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className="text-xl text-ink" style={{ fontFamily: "var(--font-heading)" }}>
-                RAG Builder
+              <h2 className="text-2xl text-white" style={{ fontFamily: "var(--font-heading)" }}>
+                Global RAG Builder
               </h2>
               <span className="rounded-full border border-teal/20 bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
                 {selectedCount} selected
@@ -425,7 +430,7 @@ export default function DashboardClient() {
             <div className="space-y-3">
               {takeaways.length ? (
                 takeaways.map((item) => (
-                  <div key={item.id} className="rounded-xl border border-ink/10 bg-paper/60 p-3">
+                  <div key={item.id} className="rounded-[22px] border border-white/10 bg-white/6 p-3">
                     <div className="mb-2 flex items-start gap-3">
                       <input
                         type="checkbox"
@@ -439,10 +444,10 @@ export default function DashboardClient() {
                           <textarea
                             value={item.draft}
                             onChange={(e) => onDraftChange(item.id, e.target.value)}
-                            className="min-h-20 w-full resize-y rounded-lg border border-ink/20 bg-white p-2 text-sm text-ink focus:border-teal focus:outline-none"
+                            className="min-h-20 w-full resize-y rounded-[16px] border border-white/10 bg-[#0f1b30] p-2 text-sm text-white focus:border-teal focus:outline-none"
                           />
                         ) : (
-                          <p className="text-sm leading-relaxed text-ink/85">{item.text}</p>
+                          <p className="text-sm leading-relaxed text-white/80">{item.text}</p>
                         )}
                       </div>
                     </div>
@@ -452,13 +457,13 @@ export default function DashboardClient() {
                         <>
                           <button
                             onClick={() => cancelEdit(item.id)}
-                            className="rounded-lg border border-ink/15 bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper"
+                            className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/10"
                           >
                             Cancel
                           </button>
                           <button
                             onClick={() => commitEdit(item.id)}
-                            className="inline-flex items-center gap-1 rounded-lg bg-teal px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal/90"
+                            className="inline-flex items-center gap-1 rounded-full bg-teal px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal/90"
                           >
                             <Check className="h-3.5 w-3.5" />
                             Apply
@@ -467,7 +472,7 @@ export default function DashboardClient() {
                       ) : (
                         <button
                           onClick={() => startEdit(item.id)}
-                          className="inline-flex items-center gap-1 rounded-lg border border-ink/15 bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper"
+                          className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/10"
                         >
                           <Edit3 className="h-3.5 w-3.5" />
                           Edit
@@ -477,52 +482,53 @@ export default function DashboardClient() {
                   </div>
                 ))
               ) : (
-                <p className="rounded-lg border border-ink/10 bg-paper/70 px-3 py-2 text-sm text-ink/75">No takeaways generated.</p>
+                <p className="rounded-[18px] border border-white/10 bg-white/6 px-3 py-2 text-sm text-white/70">No takeaways generated.</p>
               )}
             </div>
 
             <button
               onClick={saveSelected}
               disabled={saveBusy}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-ink px-4 py-3 text-sm font-semibold text-white hover:bg-ink/90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white hover:bg-ink/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saveBusy ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              {saveBusy ? "Saving to Brain..." : "Save Selected to My Brain"}
+              {saveBusy ? "Saving to Inspiration..." : "Save Selected to Inspiration Memory"}
             </button>
 
             {saveMessage ? (
-              <p className="mt-3 inline-flex items-start gap-2 rounded-lg border border-teal/20 bg-teal/10 px-3 py-2 text-xs text-teal">
+              <p className="mt-3 inline-flex items-start gap-2 rounded-[18px] border border-teal/20 bg-teal/10 px-3 py-2 text-xs text-teal">
                 <SquarePen className="mt-0.5 h-3.5 w-3.5" />
                 {saveMessage}
               </p>
             ) : null}
           </aside>
         </section>
+        </div>
       </main>
 
-      <section className="fixed bottom-4 left-4 right-4 z-40 rounded-2xl border border-ink/15 bg-white/95 p-3 shadow-soft backdrop-blur md:left-auto md:w-[380px]">
+      <section className="fixed bottom-4 left-4 right-4 z-40 rounded-[28px] border border-white/10 bg-[rgba(9,17,30,0.92)] p-4 shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur-xl md:left-auto md:w-[400px]">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-ink" style={{ fontFamily: "var(--font-heading)" }}>
-            Brain Chat
+          <h3 className="text-sm font-semibold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+            Inspiration Chat
           </h3>
-          <span className="text-[11px] text-ink/55">
+          <span className="text-[11px] text-white/48">
             {isDemoMode ? "Demo: local mocked retrieval context" : "Grounded on curated vector context"}
           </span>
         </div>
 
-        <div className="mb-3 max-h-64 space-y-2 overflow-y-auto rounded-xl border border-ink/10 bg-paper/60 p-2">
+        <div className="mb-3 max-h-64 space-y-2 overflow-y-auto rounded-[22px] border border-white/10 bg-white/6 p-2">
           {chatMessages.map((msg) => (
-            <div key={msg.id} className={`rounded-lg px-3 py-2 text-xs ${msg.role === "user" ? "ml-8 bg-ink text-white" : "mr-8 bg-white text-ink"}`}>
+            <div key={msg.id} className={`rounded-[18px] px-3 py-2 text-xs ${msg.role === "user" ? "ml-8 bg-[linear-gradient(135deg,#1b3a61,#274a77)] text-white" : "mr-8 bg-white/6 text-white"}`}>
               <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
               {msg.role === "assistant" && msg.contexts && msg.contexts.length > 0 ? (
-                <div className="mt-2 rounded-md border border-ink/10 bg-paper/70 p-2 text-[11px] text-ink/70">
+                <div className="mt-2 rounded-[14px] border border-white/10 bg-white/6 p-2 text-[11px] text-white/60">
                   Context used: {msg.contexts.slice(0, 2).join(" | ")}
                 </div>
               ) : null}
             </div>
           ))}
           {chatBusy ? (
-            <div className="mr-8 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-xs text-ink/70">
+            <div className="mr-8 inline-flex items-center gap-2 rounded-full bg-white/6 px-3 py-2 text-xs text-white/62">
               <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
               Thinking...
             </div>
@@ -540,12 +546,12 @@ export default function DashboardClient() {
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Ask about this episode..."
-            className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2 text-xs text-ink placeholder:text-ink/45 focus:border-teal focus:outline-none"
+            className="w-full rounded-full border border-white/10 bg-[#0f1b30] px-3 py-2 text-xs text-white placeholder:text-white/28 focus:border-teal focus:outline-none"
           />
           <button
             type="submit"
             disabled={chatBusy}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-teal text-white hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-teal text-white hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Send className="h-4 w-4" />
           </button>
