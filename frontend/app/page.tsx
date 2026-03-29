@@ -375,7 +375,7 @@ const initialInboxItems: InboxItem[] = [
     unread: true,
     relatedIsland: "Capital Discipline",
     suggestion:
-      "你现在在想 pricing，不妨把两条旧记忆一起看：一条来自金融播客，讲高利率环境下的利润保护；另一条来自商业播客，讲 packaging 简化如何帮助提价落地。",
+      "You're thinking about pricing. It may help to review two older memories together: one from the finance podcast on protecting margins in a high-rate environment, and one from the business podcast on how simpler packaging makes price changes easier to land.",
     evidence: [
       "Finance: protect free cash flow after interest expense, not just revenue optics.",
       "Business: pricing updates work better when packaging and sales migration story are simplified."
@@ -390,7 +390,7 @@ const initialInboxItems: InboxItem[] = [
     unread: true,
     relatedIsland: "AI Reliability",
     suggestion:
-      "你现在在问 agent reliability，这和你之前那条关于 weekly operating memo 的记录其实是同一个问题：系统要稳定，必须有固定节奏的 review 和 checkpoint。",
+      "You're asking about agent reliability, but this overlaps with your earlier note on weekly operating memos. Stable systems usually depend on a fixed review rhythm and explicit checkpoints.",
     evidence: [
       "Business: weekly written memos preserve decision sequence better than occasional strategy decks.",
       "AI: agent workflows need visible checkpoints where the system can stop, show evidence, and ask for confirmation."
@@ -737,7 +737,7 @@ function createPresetSerendipityInboxItem(seed: string): InboxItem | null {
       unread: true,
       relatedIsland: "Capital Discipline",
       suggestion:
-        "你现在这条思路不只是商业判断，它和之前那条关于高利率环境下利润保护的金融记忆能互相印证，要不要一起看？",
+        "This idea is not only a business judgment. It can be validated against that earlier finance memory about protecting margins in a higher-rate environment. Do you want to review them together?",
       evidence: [
         "Finance: treat free cash flow after interest expense as the real resilience lens.",
         "Business: pricing changes land better when packaging and migration path stay simple."
@@ -754,7 +754,8 @@ function createPresetSerendipityInboxItem(seed: string): InboxItem | null {
       createdAtLabel: "New push",
       unread: true,
       relatedIsland: "AI Reliability",
-      suggestion: "你现在这个 workflow 问题，和你之前那条关于 agent checkpoint 的 AI 记录几乎是同一条线，要不要直接展开看看？",
+      suggestion:
+        "This workflow question is nearly the same thread as your earlier AI note on agent checkpoints. Do you want to open them side by side?",
       evidence: [
         "AI: agent workflows should expose checkpoints where the system can stop, show evidence, and ask for confirmation.",
         "Knowledge Transfer: cross-domain memory helps when it reframes the current decision instead of repeating the archive."
@@ -771,7 +772,8 @@ function createPresetSerendipityInboxItem(seed: string): InboxItem | null {
       createdAtLabel: "New push",
       unread: true,
       relatedIsland: "Operating Cadence",
-      suggestion: "你现在问的是 eval / review，但你之前那条关于 weekly operating memo 的商业记录其实正好给这个问题提供了管理层面的答案。",
+      suggestion:
+        "You're asking about eval and review, but your earlier business note on weekly operating memos already offers the management layer for this problem.",
       evidence: [
         "Business: weekly written memos preserve decisions in sequence better than big quarterly decks.",
         "AI: eval sets should target user-visible failures, not only abstract benchmark gains."
@@ -788,7 +790,8 @@ function createPresetSerendipityInboxItem(seed: string): InboxItem | null {
       createdAtLabel: "New push",
       unread: true,
       relatedIsland: "Knowledge Transfer",
-      suggestion: "你现在这个问题也许不该只在一个领域里找答案。之前那几条金融、商业、AI 的记忆其实已经能拼成一张可迁移的模式图。",
+      suggestion:
+        "This question may be too broad for a single domain. Your earlier finance, business, and AI memories already combine into a transferable pattern worth reviewing together.",
       evidence: [
         "Compounding Systems: compounding comes from feedback architecture, not more raw activity.",
         "Knowledge Transfer: cross-domain memory is valuable when it pressure-tests today's decision."

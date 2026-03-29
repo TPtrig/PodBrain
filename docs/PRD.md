@@ -235,7 +235,7 @@ Pain solved:
 User types a new idea.
 Serendipity agent recognizes a meaningful historical bridge and pushes an inbox item:
 
-> 你现在关注的这个问题，和你三个月前存的一篇关于损失函数优化的笔记刚好能印证，要不要看看？
+> The issue you're focused on now lines up with a note you saved three months ago about loss function optimization. Do you want to revisit it?
 
 Pain solved:
 

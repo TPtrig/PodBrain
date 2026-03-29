@@ -195,7 +195,7 @@ export default function LoadingClient() {
 
             <div className="mt-5 flex items-center gap-2 text-xs text-white/54">
               <AudioLines className="h-3.5 w-3.5" />
-              Parsing content in background... / 内容正在后台解析...
+              Parsing content in background...
             </div>
           </aside>
         </div>
