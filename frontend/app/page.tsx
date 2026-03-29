@@ -45,6 +45,7 @@ type PodcastAsset = {
   title: string;
   url: string;
   sourceLabel: string;
+  domain?: string;
   taskId?: string;
   createdAt: number;
 };
@@ -56,6 +57,7 @@ type TakeawayItem = {
   podcastUrl: string;
   text: string;
   enabled: boolean;
+  domain?: string;
   taskId?: string;
   persisted: boolean;
   itemId?: string;
@@ -209,6 +211,22 @@ type InboxItem =
       evidence: string[];
     };
 
+type DemoSeedSource = {
+  id: string;
+  domain: "Finance" | "Business" | "AI";
+  title: string;
+  url: string;
+  sourceLabel: string;
+  persistedTakeaways: string[];
+  draftTakeaways: string[];
+  conversation: {
+    title: string;
+    user: string;
+    assistant: string;
+    contexts: string[];
+  };
+};
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 const loaderTriviaByDomain: Record<string, string[]> = {
@@ -250,63 +268,68 @@ const legacyCards = [
 
 const presetIslandModules = [
   {
-    id: "llm",
-    label: "LLM",
+    id: "compounding-systems",
+    label: "Compounding Systems",
     role: "main" as const,
-    summary: "Large language models act as the cognitive core of the stack: instruction following, abstraction, synthesis, and adaptive response generation all depend on the model layer staying stable and steerable.",
+    summary:
+      "Across the finance, business, and AI material already parsed in this demo, the same pattern keeps showing up: strong systems compound because they turn noisy signals into repeatable review loops, explicit checkpoints, and reusable decisions.",
     details: [
-      "Model selection should optimize for reliability before novelty when the product surface is grounded reasoning.",
-      "Prompt scaffolding defines how well the model respects memory boundaries and fallback behavior.",
-      "Latency, context window, and instruction hierarchy all shape the perceived intelligence of the assistant.",
-      "The core LLM should synthesize across islands without collapsing them into generic summaries."
+      "Finance podcasts framed cash, duration, and refinancing risk as system constraints rather than one-off market calls.",
+      "Business podcasts emphasized operating cadence, written decision capture, and ICP discipline as organizational compounding loops.",
+      "AI podcasts translated the same idea into evaluation harnesses, retrieval checkpoints, and explicit fallback behavior.",
+      "The shared lesson is that compounding comes from feedback architecture, not from more raw information."
     ]
   },
   {
-    id: "harness-engineering",
-    label: "Harness Engineering",
+    id: "capital-discipline",
+    label: "Capital Discipline",
     role: "small" as const,
-    summary: "Harness engineering is the evaluation and orchestration shell around the model: test prompts, regression suites, routing controls, and failure probes keep the product honest.",
+    summary:
+      "The finance material converged on one operating truth: higher rates punish sloppy timing. The strongest teams treat cash, debt maturity, and payback windows as active strategic levers, not passive reporting lines.",
     details: [
-      "Build prompt harnesses that replay critical user flows before every iteration.",
-      "Keep adversarial test cases near the product, not buried inside model research notes.",
-      "Evaluation harnesses should measure groundedness, not only fluency.",
-      "The harness is where product quality becomes inspectable instead of anecdotal."
+      "Track free cash flow after interest expense, not just EBITDA, when stress-testing resilience.",
+      "Make the refinancing wall visible 12 to 18 months ahead so risk shows up before runway panic.",
+      "Treat short-duration cash yield as optionality that can buy product and pricing time.",
+      "Connect roadmap bets to payback assumptions when the cost of capital rises."
     ]
   },
   {
-    id: "fine-tune",
-    label: "Fine Tune",
+    id: "operating-cadence",
+    label: "Operating Cadence",
     role: "small" as const,
-    summary: "Fine-tuning is the specialization layer: it narrows behavior, compresses style, and can reduce prompt burden when a repeatable interaction pattern already exists.",
+    summary:
+      "The business podcasts were unusually consistent: great companies do not win with more meetings, they win with tighter operating rhythm. Decision ownership, metric clarity, and memo-based continuity outperform noisy coordination.",
     details: [
-      "Fine-tune only after retrieval, prompting, and evaluation are already coherent.",
-      "Use tuning for consistent behavior, not to hide weak product structure.",
-      "Dataset quality matters more than dataset size for narrow interaction loops.",
-      "A tuned model still needs the same product guardrails around memory and retrieval."
+      "A useful operating review ends with one owner, one metric, and one next checkpoint.",
+      "ICP discipline usually erodes before demand does, so watch customer mix before top-of-funnel vanity.",
+      "Packaging changes land better when sales has a migration story, not just a new price sheet.",
+      "Weekly written memos compound faster than occasional strategy decks because they preserve decision sequence."
     ]
   },
   {
-    id: "machine-learning",
-    label: "Machine Learning",
+    id: "ai-reliability",
+    label: "AI Reliability",
     role: "small" as const,
-    summary: "Machine learning remains the substrate underneath the product: ranking, embeddings, clustering, and classification decide what the assistant notices before it speaks.",
+    summary:
+      "The AI sources all pointed to the same practical takeaway: reliable systems come from curation, evaluation, and bounded agent behavior long before they come from frontier model upgrades.",
     details: [
-      "Embedding and ranking layers quietly shape nearly every downstream answer.",
-      "Clustering can create product moments when it reveals hidden commonality instead of raw similarity.",
-      "Lightweight classifiers often unlock better routing than adding more prompt complexity.",
-      "ML infrastructure should expose signal, not just scores."
+      "Retrieval quality usually breaks on curation and ranking before it breaks on model size.",
+      "Agent flows need observable checkpoints where the system can stop, show evidence, and ask for confirmation.",
+      "Eval sets should target user-visible failures: groundedness, latency, refusal quality, and recovery.",
+      "Fine-tuning is a later-stage compression tool, not a shortcut around weak product structure."
     ]
   },
   {
-    id: "agent-orchestration",
-    label: "Agent Orchestration",
+    id: "knowledge-transfer",
+    label: "Knowledge Transfer",
     role: "small" as const,
-    summary: "Agent orchestration coordinates tools, memory, and specialized prompts into one visible workflow. It is the layer that turns isolated model calls into product behavior.",
+    summary:
+      "What makes this demo feel valuable is not that it stores three podcast domains separately, but that it turns them into portable decision patterns. The product becomes useful when insights from one domain can pressure-test another.",
     details: [
-      "Route subtasks explicitly so the user can understand where synthesis is coming from.",
-      "Agent chains should be short, legible, and easy to interrupt.",
-      "Memory, parsing, and synthesis agents need different constraints and different success metrics.",
-      "Good orchestration feels calm because each agent has a sharply defined job."
+      "A finance note about margin compression can sharpen an AI infra conversation about inference cost discipline.",
+      "A business lesson about operating cadence maps directly onto model eval review rituals.",
+      "Serendipity pushes work best when they surface a reusable analogy, not just a keyword match.",
+      "Cross-domain memory is most valuable when it reframes the current decision, not when it restates the archive."
     ]
   }
 ];
@@ -314,23 +337,23 @@ const presetIslandModules = [
 const presetKnowledgeGraph = {
   title: "20:00 Knowledge Graph Refresh",
   summary:
-    "The nightly agent clusters today's material into a stable graph: `LLM` remains the cognitive core while evaluation, tuning, statistical signal, and orchestration stay visible as linked operating layers.",
+    "Tonight's agent run merged three parsed podcast domains into one synthesis graph. Finance contributes capital discipline, business contributes operating cadence, AI contributes reliability design, and all three converge on compounding systems.",
   nodes: [
-    { id: "llm", label: "LLM", x: 50, y: 48, tier: "core" as const },
-    { id: "harness-engineering", label: "Harness Engineering", x: 20, y: 22, tier: "satellite" as const },
-    { id: "fine-tune", label: "Fine Tune", x: 78, y: 20, tier: "satellite" as const },
-    { id: "machine-learning", label: "Machine Learning", x: 78, y: 78, tier: "satellite" as const },
-    { id: "agent-orchestration", label: "Agent Orchestration", x: 22, y: 80, tier: "satellite" as const }
+    { id: "compounding-systems", label: "Compounding Systems", x: 50, y: 48, tier: "core" as const },
+    { id: "capital-discipline", label: "Capital Discipline", x: 20, y: 22, tier: "satellite" as const },
+    { id: "operating-cadence", label: "Operating Cadence", x: 78, y: 20, tier: "satellite" as const },
+    { id: "ai-reliability", label: "AI Reliability", x: 78, y: 78, tier: "satellite" as const },
+    { id: "knowledge-transfer", label: "Knowledge Transfer", x: 22, y: 80, tier: "satellite" as const }
   ],
   edges: [
-    { from: "llm", to: "harness-engineering", label: "regression guardrails" },
-    { from: "llm", to: "fine-tune", label: "behavior compression" },
-    { from: "llm", to: "machine-learning", label: "ranking + embeddings" },
-    { from: "llm", to: "agent-orchestration", label: "tool routing" },
-    { from: "machine-learning", to: "fine-tune", label: "loss shaping" },
-    { from: "harness-engineering", to: "agent-orchestration", label: "eval loop" }
+    { from: "compounding-systems", to: "capital-discipline", label: "resource timing" },
+    { from: "compounding-systems", to: "operating-cadence", label: "review rhythm" },
+    { from: "compounding-systems", to: "ai-reliability", label: "eval loops" },
+    { from: "compounding-systems", to: "knowledge-transfer", label: "memory reuse" },
+    { from: "capital-discipline", to: "operating-cadence", label: "budget focus" },
+    { from: "operating-cadence", to: "ai-reliability", label: "inspection culture" }
   ],
-  chips: ["Nightly agent run", "20:00 schedule", "Clustered memory", "Knowledge graph ready"]
+  chips: ["Nightly agent run", "20:00 schedule", "3 domains merged", "Cross-domain synthesis ready"]
 };
 
 const initialInboxItems: InboxItem[] = [
@@ -338,12 +361,148 @@ const initialInboxItems: InboxItem[] = [
     id: "graph-nightly-2000",
     kind: "graph",
     title: "20:00 nightly graph is ready",
-    summary: "The agent turned today's five operating themes into one linked knowledge graph for review.",
+    summary: "The agent turned finance, business, and AI listening into one linked synthesis graph for review.",
     createdAtLabel: "Scheduled for 20:00",
     unread: true,
     graph: presetKnowledgeGraph
+  },
+  {
+    id: "push-pricing-margin",
+    kind: "push",
+    title: "Pricing idea matches two older notes",
+    summary: "A business note on packaging simplicity and a finance note on margin protection now point at the same pricing decision.",
+    createdAtLabel: "Unread push · 09:12",
+    unread: true,
+    relatedIsland: "Capital Discipline",
+    suggestion:
+      "你现在在想 pricing，不妨把两条旧记忆一起看：一条来自金融播客，讲高利率环境下的利润保护；另一条来自商业播客，讲 packaging 简化如何帮助提价落地。",
+    evidence: [
+      "Finance: protect free cash flow after interest expense, not just revenue optics.",
+      "Business: pricing updates work better when packaging and sales migration story are simplified."
+    ]
+  },
+  {
+    id: "push-eval-rhythm",
+    kind: "push",
+    title: "Your AI ops question echoes an operating memo",
+    summary: "A business lesson about weekly decision cadence lines up with the AI note on evaluation rituals and checkpointed agents.",
+    createdAtLabel: "Unread push · 11:40",
+    unread: true,
+    relatedIsland: "AI Reliability",
+    suggestion:
+      "你现在在问 agent reliability，这和你之前那条关于 weekly operating memo 的记录其实是同一个问题：系统要稳定，必须有固定节奏的 review 和 checkpoint。",
+    evidence: [
+      "Business: weekly written memos preserve decision sequence better than occasional strategy decks.",
+      "AI: agent workflows need visible checkpoints where the system can stop, show evidence, and ask for confirmation."
+    ]
   }
 ];
+
+const demoSeedSources: DemoSeedSource[] = [
+  {
+    id: "finance-rates",
+    domain: "Finance",
+    title: "Macro Allocator Weekly: Higher-for-Longer Rates and the New Value of Cash",
+    url: "https://demo.inspiration.app/podcasts/finance/higher-for-longer-rates",
+    sourceLabel: "Finance podcast · parsed 12 days ago · 58 min",
+    persistedTakeaways: [
+      "In a higher-for-longer rate cycle, the first real fragility often appears in debt maturity concentration rather than headline revenue slowdown.",
+      "Teams should review free cash flow after interest expense when judging resilience; EBITDA can hide refinancing pressure.",
+      "Cash is not idle if short-duration yield restores optionality for hiring, product timing, and distressed acquisitions.",
+      "Usage-based businesses need tighter collections monitoring because billing lag can deteriorate before churn becomes visible.",
+      "Board updates should include a refinancing wall view 12 to 18 months out so maturity risk becomes a product and staffing input."
+    ],
+    draftTakeaways: [
+      "When capital becomes expensive, roadmap bets should be discussed in payback-period language rather than only strategic narrative.",
+      "A company that protects cash conversion can keep optionality longer than a faster-growing peer with weaker financing timing."
+    ],
+    conversation: {
+      title: "Finance memory: rates, cash, refinancing",
+      user: "From the finance podcasts, what should a software company actually watch if rates stay high for another year?",
+      assistant:
+        "The strongest pattern was to stop treating 'cash runway' as the only health metric. The finance material pushed toward debt maturity timing, free cash flow after interest expense, and collection discipline as earlier warning signals.",
+      contexts: [
+        "Teams should review free cash flow after interest expense when judging resilience; EBITDA can hide refinancing pressure.",
+        "Board updates should include a refinancing wall view 12 to 18 months out so maturity risk becomes a product and staffing input."
+      ]
+    }
+  },
+  {
+    id: "business-ops",
+    domain: "Business",
+    title: "Operator's Stack: Turning GTM Meetings into a Compounding Operating System",
+    url: "https://demo.inspiration.app/podcasts/business/operating-system-cadence",
+    sourceLabel: "Business podcast · parsed 9 days ago · 64 min",
+    persistedTakeaways: [
+      "The best operating reviews end with one accountable owner, one leading metric, and one next checkpoint instead of a recap of everything discussed.",
+      "Mid-market SaaS teams often lose growth because ICP discipline erodes before top-of-funnel volume does.",
+      "Pricing changes land better when paired with packaging simplification and a concrete migration story for sales.",
+      "Weekly written memos outperform oversized quarterly decks because they preserve decisions in sequence and reduce reinterpretation.",
+      "If onboarding time-to-value trails the sales promise, retention risk is already embedded before expansion ever enters the conversation."
+    ],
+    draftTakeaways: [
+      "Founders should separate activity growth from throughput growth so GTM dashboards do not mistake motion for progress.",
+      "Every cross-functional review should produce a visible tradeoff, not just a status update, if you want meetings to compound."
+    ],
+    conversation: {
+      title: "Business memory: operating cadence and GTM",
+      user: "What kept repeating across the business podcasts about how strong teams actually operate?",
+      assistant:
+        "They repeatedly turned management into a cadence problem. The podcasts favored written continuity, narrow accountability, and metrics that survive handoffs over high-energy but low-memory meetings.",
+      contexts: [
+        "The best operating reviews end with one accountable owner, one leading metric, and one next checkpoint instead of a recap of everything discussed.",
+        "Weekly written memos outperform oversized quarterly decks because they preserve decisions in sequence and reduce reinterpretation."
+      ]
+    }
+  },
+  {
+    id: "ai-rag-agents",
+    domain: "AI",
+    title: "Practical AI Systems: Reliable RAG, Eval Loops, and Agent Checkpoints",
+    url: "https://demo.inspiration.app/podcasts/ai/reliable-rag-agents",
+    sourceLabel: "AI podcast · parsed 3 days ago · 71 min",
+    persistedTakeaways: [
+      "Retrieval quality is usually constrained by curation and ranking before it is constrained by the frontier model.",
+      "Agent workflows should expose checkpoints where the system can stop, show evidence, and ask for confirmation.",
+      "Eval sets need to mirror product-visible failures: groundedness, latency, refusal quality, and recovery after misses.",
+      "Fine-tuning should follow prompt, retrieval, and workflow stabilization; otherwise teams compress noise into weights.",
+      "The fastest reliability gain is often a stronger fallback policy that says 'I don't know' before the system starts guessing."
+    ],
+    draftTakeaways: [
+      "Multi-agent systems only feel intelligent when each agent has a narrow contract and an observable handoff.",
+      "If memory curation is weak, more tools simply amplify confident failure modes."
+    ],
+    conversation: {
+      title: "AI memory: RAG reliability and agents",
+      user: "If we were building AI features next quarter, what should we prioritize before adding more agents?",
+      assistant:
+        "The AI material was pretty decisive: get memory curation, retrieval ranking, and visible checkpoints right first. More agents on top of weak evidence only create more expensive ambiguity.",
+      contexts: [
+        "Retrieval quality is usually constrained by curation and ranking before it is constrained by the frontier model.",
+        "Agent workflows should expose checkpoints where the system can stop, show evidence, and ask for confirmation."
+      ]
+    }
+  }
+];
+
+const presetInsightCluster: InsightClusterApi = {
+  success: true,
+  cluster_date: "2026-03-29",
+  title: "Tonight's synthesis: three domains collapsed into one operating pattern",
+  overview:
+    "Finance, business, and AI all converged on a surprisingly similar idea: the winning systems are the ones that make review loops visible early, keep resource constraints explicit, and turn experience into reusable decision memory.",
+  hidden_commonality:
+    "Across all three domains, compounding did not come from more activity. It came from better feedback architecture.",
+  nodes: presetIslandModules.map((item) => ({
+    label: item.label,
+    summary: item.summary,
+    evidence: item.details
+  })),
+  prompt_preview: {
+    system: "Nightly synthesis agent clusters parsed podcast memory into reusable operating themes.",
+    user: "Summarize the strongest hidden commonality across finance, business, and AI podcast fragments captured this week."
+  }
+};
 
 function makeId(prefix: string): string {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}-${Date.now()}`;
@@ -363,6 +522,82 @@ function makeLocalConversation(): Conversation {
     podcastIds: [],
     createdAt: now,
     updatedAt: now
+  };
+}
+
+function createDemoWorkspaceSeed() {
+  const now = Date.now();
+
+  const podcasts: PodcastAsset[] = demoSeedSources.map((source, index) => ({
+    id: source.id,
+    title: source.title,
+    url: source.url,
+    sourceLabel: source.sourceLabel,
+    domain: source.domain,
+    createdAt: now - (index + 1) * 86_400_000
+  }));
+
+  const takeaways: TakeawayItem[] = demoSeedSources.flatMap((source) => {
+    const persisted = source.persistedTakeaways.map((text, takeawayIndex) => ({
+      id: `${source.id}-saved-${takeawayIndex}`,
+      itemId: `${source.id}-memory-${takeawayIndex}`,
+      podcastId: source.id,
+      podcastTitle: source.title,
+      podcastUrl: source.url,
+      text,
+      enabled: true,
+      domain: source.domain,
+      persisted: true,
+      taskId: `seed-task-${source.id}`
+    }));
+    const drafts = source.draftTakeaways.map((text, takeawayIndex) => ({
+      id: `${source.id}-draft-${takeawayIndex}`,
+      podcastId: source.id,
+      podcastTitle: source.title,
+      podcastUrl: source.url,
+      text,
+      enabled: takeawayIndex === 0,
+      domain: source.domain,
+      persisted: false,
+      taskId: `seed-task-${source.id}`
+    }));
+    return [...persisted, ...drafts];
+  });
+
+  const conversations: Conversation[] = demoSeedSources.map((source, index) => {
+    const createdAt = now - (index + 1) * 43_200_000;
+    const userMessage: ChatMessage = {
+      id: `${source.id}-user`,
+      role: "user",
+      content: source.conversation.user,
+      createdAt
+    };
+    const assistantMessage: ChatMessage = {
+      id: `${source.id}-assistant`,
+      role: "assistant",
+      content: source.conversation.assistant,
+      contexts: source.conversation.contexts,
+      createdAt: createdAt + 90_000
+    };
+    return {
+      id: `${source.id}-conversation`,
+      title: source.conversation.title,
+      messages: [userMessage, assistantMessage],
+      messageCount: 2,
+      podcastIds: [source.id],
+      createdAt,
+      updatedAt: createdAt + 90_000
+    };
+  });
+
+  return {
+    conversations,
+    activeConversationId: conversations[2]?.id ?? conversations[0]?.id ?? "",
+    podcasts,
+    takeaways,
+    inboxItems: initialInboxItems,
+    selectedInboxItemId: initialInboxItems[0]?.id ?? "",
+    insightCluster: presetInsightCluster
   };
 }
 
@@ -492,70 +727,71 @@ function createLocalSerendipityHint(seed: string, takeaways: TakeawayItem[]): st
 function createPresetSerendipityInboxItem(seed: string): InboxItem | null {
   const normalized = seed.toLowerCase();
 
-  if (/(loss|optimizer|optim|gradient|training|finetune|fine tune)/.test(normalized)) {
+  if (/(price|pricing|margin|cash|burn|runway|budget|finance|interest)/.test(normalized)) {
     return {
-      id: "push-loss-match",
+      id: "push-capital-match",
       kind: "push",
-      title: "Old optimization note can validate this",
-      summary: "You are revisiting training dynamics. A stored note about loss-shaping and behavior compression lines up with this thread.",
+      title: "A finance memory can sharpen this decision",
+      summary: "Your new idea touches pricing or margin. The stored finance material can anchor it in cash and capital timing instead of intuition alone.",
       createdAtLabel: "New push",
       unread: true,
-      relatedIsland: "Fine Tune",
-      suggestion: "你现在关注的这个问题，和你三个月前存的一篇关于损失函数优化的笔记刚好能印证，要不要看看？",
+      relatedIsland: "Capital Discipline",
+      suggestion:
+        "你现在这条思路不只是商业判断，它和之前那条关于高利率环境下利润保护的金融记忆能互相印证，要不要一起看？",
       evidence: [
-        "Fine Tune: dataset quality matters more than dataset size for narrow loops.",
-        "Machine Learning: loss shaping and ranking layers define what the system notices."
+        "Finance: treat free cash flow after interest expense as the real resilience lens.",
+        "Business: pricing changes land better when packaging and migration path stay simple."
       ]
     };
   }
 
-  if (/(agent|workflow|orchestrat|tool|route)/.test(normalized)) {
+  if (/(agent|workflow|orchestrat|tool|route|checkpoint|handoff)/.test(normalized)) {
     return {
       id: "push-agent-match",
       kind: "push",
-      title: "This workflow echoes your orchestration map",
-      summary: "Your new idea overlaps with the orchestration fabric already stored in the demo memory map.",
+      title: "This workflow echoes an older AI reliability note",
+      summary: "The way you are framing this workflow overlaps with the stored AI notes on checkpointed agents and bounded handoffs.",
       createdAtLabel: "New push",
       unread: true,
-      relatedIsland: "Agent Orchestration",
-      suggestion: "你现在关注的这个工作流问题，和你之前存下来的 Agent Orchestration 设计刚好能互相补强，要不要直接展开看看？",
+      relatedIsland: "AI Reliability",
+      suggestion: "你现在这个 workflow 问题，和你之前那条关于 agent checkpoint 的 AI 记录几乎是同一条线，要不要直接展开看看？",
       evidence: [
-        "Agent Orchestration: route subtasks explicitly so synthesis stays legible.",
-        "Harness Engineering: evaluation loops should remain close to the routed workflow."
+        "AI: agent workflows should expose checkpoints where the system can stop, show evidence, and ask for confirmation.",
+        "Knowledge Transfer: cross-domain memory helps when it reframes the current decision instead of repeating the archive."
       ]
     };
   }
 
-  if (/(eval|benchmark|test|harness|regression)/.test(normalized)) {
+  if (/(eval|benchmark|test|harness|regression|review|cadence|ritual)/.test(normalized)) {
     return {
-      id: "push-harness-match",
+      id: "push-cadence-match",
       kind: "push",
-      title: "Evaluation memory matches this question",
-      summary: "A previously stored harness note can pressure-test the idea you are typing now.",
+      title: "An operating memo from business memory fits here",
+      summary: "This question is not only about process quality. A stored business note on weekly operating cadence can strengthen it.",
       createdAtLabel: "New push",
       unread: true,
-      relatedIsland: "Harness Engineering",
-      suggestion: "你现在这个判断题，和你之前那条关于 prompt regression 的记录刚好能互证，要不要调出来一起看？",
+      relatedIsland: "Operating Cadence",
+      suggestion: "你现在问的是 eval / review，但你之前那条关于 weekly operating memo 的商业记录其实正好给这个问题提供了管理层面的答案。",
       evidence: [
-        "Harness Engineering: replay critical prompt flows before every iteration.",
-        "LLM: prompt scaffolding decides how well the model respects memory boundaries."
+        "Business: weekly written memos preserve decisions in sequence better than big quarterly decks.",
+        "AI: eval sets should target user-visible failures, not only abstract benchmark gains."
       ]
     };
   }
 
-  if (/(embedding|ranking|cluster|ml|retriev)/.test(normalized)) {
+  if (/(embedding|ranking|cluster|ml|retriev|connect|synth|pattern)/.test(normalized)) {
     return {
-      id: "push-ml-match",
+      id: "push-transfer-match",
       kind: "push",
-      title: "Signal layer already has a matching fragment",
-      summary: "A stored memory about embeddings and ranking overlaps with this fresh input.",
+      title: "A cross-domain pattern is hiding behind this",
+      summary: "The fresh note you are typing is broad enough that the most useful memory may be the bridge across domains, not a single matching clip.",
       createdAtLabel: "New push",
       unread: true,
-      relatedIsland: "Machine Learning",
-      suggestion: "你现在关注的这个检索信号问题，和你之前记下的 embedding / ranking 思路是同一条线，要不要一起看？",
+      relatedIsland: "Knowledge Transfer",
+      suggestion: "你现在这个问题也许不该只在一个领域里找答案。之前那几条金融、商业、AI 的记忆其实已经能拼成一张可迁移的模式图。",
       evidence: [
-        "Machine Learning: embedding and ranking layers quietly shape downstream answers.",
-        "LLM: model behavior is only as grounded as the retrieval signal beneath it."
+        "Compounding Systems: compounding comes from feedback architecture, not more raw activity.",
+        "Knowledge Transfer: cross-domain memory is valuable when it pressure-tests today's decision."
       ]
     };
   }
@@ -772,6 +1008,7 @@ export default function Page() {
 
   const enabledTakeaways = useMemo(() => takeaways.filter((t) => t.enabled), [takeaways]);
   const liveDraftTakeaways = useMemo(() => takeaways.filter((item) => !item.persisted), [takeaways]);
+  const savedMemoryCount = useMemo(() => takeaways.filter((item) => item.persisted).length, [takeaways]);
   const selectedDraftCount = useMemo(() => liveDraftTakeaways.filter((item) => item.enabled).length, [liveDraftTakeaways]);
   const liveDraftCount = liveDraftTakeaways.length;
 
@@ -897,9 +1134,14 @@ export default function Page() {
       setHint(null);
 
       if (isDemoMode) {
-        const seed = makeLocalConversation();
-        setConversations([seed]);
-        setActiveConversationId(seed.id);
+        const seed = createDemoWorkspaceSeed();
+        setConversations(seed.conversations);
+        setActiveConversationId(seed.activeConversationId);
+        setPodcasts(seed.podcasts);
+        setTakeaways(seed.takeaways);
+        setInboxItems(seed.inboxItems);
+        setSelectedInboxItemId(seed.selectedInboxItemId);
+        setInsightCluster(seed.insightCluster);
         setBootstrapping(false);
         return;
       }
@@ -1668,7 +1910,7 @@ export default function Page() {
   const todayIntention = summarizeTextTitle(presetMainIsland.summary);
   const insightHighlights = presetSmallIslands.map((item) => summarizeTextTitle(item.summary));
   const hiddenCommonality =
-    "These five islands describe the modern AI product stack: model core, evaluation shell, specialization layer, statistical substrate, and orchestration fabric.";
+    "Finance, business, and AI all point to the same hidden commonality: compounding systems make feedback visible early, preserve decisions over time, and turn constraints into better operating judgment.";
   const openCanvasDetail = (label: string) => {
     const preset = presetIslandModules.find((item) => item.label === label);
     setActiveCanvasDetail(
@@ -2002,8 +2244,10 @@ export default function Page() {
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/46">Live Takeaways</p>
                       <p className="mt-1 text-sm text-white/62">
                         {liveDraftCount
-                          ? `${selectedDraftCount} selected / ${liveDraftCount} live draft takeaway${liveDraftCount === 1 ? "" : "s"}`
-                          : "Parse a source to generate live draft takeaways for selection and saving."}
+                          ? `${selectedDraftCount} selected / ${liveDraftCount} live draft takeaway${liveDraftCount === 1 ? "" : "s"} · ${savedMemoryCount} already saved in memory`
+                          : savedMemoryCount
+                            ? `${savedMemoryCount} saved memory item${savedMemoryCount === 1 ? "" : "s"} already grounded in this demo workspace.`
+                            : "Parse a source to generate live draft takeaways for selection and saving."}
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
@@ -2043,6 +2287,7 @@ export default function Page() {
                           <div className="mb-4 flex items-start justify-between gap-3">
                             <div>
                               <p className="text-sm font-semibold text-white">{podcast.title}</p>
+                              <p className="mt-1 text-xs text-[#9ec4ff]">{podcast.sourceLabel}</p>
                               <p className="mt-1 line-clamp-1 text-xs text-white/50">{podcast.url}</p>
                             </div>
                             <button
@@ -2067,9 +2312,20 @@ export default function Page() {
                                 />
                                 <div className="flex-1">
                                   <div className="mb-2 flex items-center gap-2">
-                                    <span className="rounded-full bg-[#21416a]/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b9d5ff]">
-                                      Draft
+                                    <span
+                                      className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] ${
+                                        item.persisted
+                                          ? "bg-emerald-500/16 text-emerald-200"
+                                          : "bg-[#21416a]/70 text-[#b9d5ff]"
+                                      }`}
+                                    >
+                                      {item.persisted ? "Saved memory" : "Live draft"}
                                     </span>
+                                    {item.domain ? (
+                                      <span className="rounded-full bg-white/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60">
+                                        {item.domain}
+                                      </span>
+                                    ) : null}
                                   </div>
                                   <p className="text-sm leading-relaxed text-white/78">{item.text}</p>
                                 </div>
